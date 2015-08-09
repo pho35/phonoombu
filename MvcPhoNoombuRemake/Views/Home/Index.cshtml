@@ -1,0 +1,99 @@
+﻿@model MvcPhoNoombuRemake.Models.LstMyNewsModel
+
+@{
+    ViewBag.Title = "Bienvenue sur Nöombu";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            @using (Html.BeginForm("Index", "Home")) {
+            @Html.ValidationSummary(true)
+
+            <div class="input-control text span4">
+                    @Html.EditorFor(model => model.ContentPost)
+                    <input type="submit" value="Publier"/>
+            </div>
+            <div>
+                @Html.ValidationMessageFor(model => model.ContentPost)
+                
+            </div>
+            }
+        </div>
+    </section>
+}
+@{
+     if (Model.MyNews != null)
+    {
+        foreach (var item in Model.MyNews)
+        {
+            <h4> @Html.DisplayFor(modelItem => item.Author.FirstName)  @Html.DisplayFor(modelItem => item.Author.LastName)</h4>
+            <table>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContentPost) 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @{
+                            bool liked = false;
+                            int IdLike = 0;
+                            foreach (var like in Model.Likes)
+                            {
+                                if (item.PostId == like.LikeForPost.PostId)
+                                {
+                                    IdLike = like.LikeId;
+                                    liked = true;
+                                    break;
+                                }
+                            }
+                            if (liked == true)
+                            {
+                                @Html.ActionLink("Je n'aime plus", "DisLike", new { id=item.PostId })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("J'aime", "Liked", new { id=item.PostId})
+                            }
+                        }
+                        
+                    </td>
+                    <td>
+                        @{
+                            String ComLink = "Nb Commentaire : " + item.Comments.Count;
+                            @Html.ActionLink(ComLink, "DetailPostComments", new { id=item.PostId })
+                        }
+                    </td>
+                     @{
+                            if(item.Likes.Count == 0)
+                            {
+                                <td>
+                                    @item.Likes.Count personne aime
+                                </td>
+                            }
+                            else
+                            {
+                                if (item.Likes.Count > 1)
+                                {
+                                    <td>
+                                        @item.Likes.Count personnes aiment
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @item.Likes.Count personne aime 
+                                    </td>
+                                }
+
+                            }
+                        }
+                    <td>
+                        Publiée le @item.DatePublication.ToShortDateString() 
+                    </td>
+                </tr>
+            </table>
+        }
+    }
+}
+

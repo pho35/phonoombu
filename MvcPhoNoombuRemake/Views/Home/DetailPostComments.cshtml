@@ -1,0 +1,77 @@
+﻿@model MvcPhoNoombuRemake.Models.LstCommentsByPost
+
+@{
+    ViewBag.Title = "Détail Post with Comments";
+}
+
+<h2>Detail</h2>
+
+<table>
+    <tr>
+        <th>@Html.DisplayFor(model => model.postConcerned.Author.FirstName) @Html.DisplayFor(model => model.postConcerned.Author.LastName)</th>
+    </tr>
+    <tr>
+        <td>@Html.DisplayFor(model => model.postConcerned.ContentPost)</td>
+    </tr>
+    <tr>
+        <td>Publié le @Model.postConcerned.DatePublication.ToShortDateString()</td>
+    </tr>
+</table>
+
+
+<table>
+    @if (Model.postConcerned.Comments != null)
+    {
+        foreach (var item in Model.postConcerned.Comments)
+        {
+            if (item.CommentAuthor.UserId == WebSecurity.CurrentUserId)
+            {
+                <tr>
+                    <td><h5><b>@item.CommentAuthor.FirstName @item.CommentAuthor.LastName</b></h5></td>
+                    <td>Commenté le @item.DatePublication.ToShortDateString() </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td><h5>@item.CommentAuthor.FirstName @item.CommentAuthor.LastName</h5></td>
+                    <td>Commenté le @item.DatePublication.ToShortDateString() </td>
+                </tr>
+            }
+            <tr>
+                <td>@item.CommentContent</td>
+                @{
+                    if (item.CommentAuthor.UserId == WebSecurity.CurrentUserId)
+                    {
+                        <td>
+                            <input type="submit" value="Supprimer" onclick="location.href='@Url.Action("CommentDelete", "Home", new { id = item.CommentId })'" /> 
+                        </td>    
+                    }
+                    
+                }
+            </tr>
+        }
+    }
+ </table>
+<table>
+@using (Html.BeginForm("DetailPostComments", "Home", new { id = Model.postConcerned.PostId }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <tr>
+        <td>
+            @Html.EditorFor(model => model.unComment.CommentContent)
+            @Html.ValidationMessageFor(model => model.unComment.CommentContent, String.Empty)
+        </td>
+        <td>
+            <input type="submit" value="Publier"/>
+        </td>       
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.ActionLink("Retourner vers la page d'accueil", "Index", "Home")
+</div>

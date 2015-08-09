@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Rechercher";
+}
+
+<h5>Rechercher un utilisateur par son login</h5>
+
+@using (Html.BeginForm("LstUser", "Home")){
+    <h5>UserName</h5>
+    <div><input type="text" name="critere"/></div>
+    <div><input type="submit" value="Rechercher" class="bg-color-blue"/></div>
+}

@@ -1,0 +1,27 @@
+﻿@model MvcPhoNoombuRemake.DAL.Post
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Êtes-vous sûr de supprimer ce post?</h3>
+<fieldset>
+    <legend>Post</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ContentPost)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ContentPost)
+    </div>
+
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Supprimer" /> |
+        @Html.ActionLink("Retourner à la liste de mes posts", "Index")
+    </p>
+}

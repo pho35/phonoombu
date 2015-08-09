@@ -1,0 +1,87 @@
+﻿@model MvcPhoNoombuRemake.Models.LstTypeGroup
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Liste de mes groupes </h2>
+
+@{
+    if(Model.groupsPerso != null)
+    {
+        <table>
+            <tr>
+                <th>Mes propres groupes (@Model.groupsPerso.Count)</th>
+            </tr>
+            @foreach (var unGroupePersoItem in Model.groupsPerso)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => unGroupePersoItem.GroupsName)</td>
+                    <td>
+                        @Html.ActionLink("Modifier ce groupe", "Edit", new { id=unGroupePersoItem.GroupsId }) |
+                        @Html.ActionLink("Detail", "Details", new { id=unGroupePersoItem.GroupsId }) |
+                        @Html.ActionLink("Supprimer ce groupe", "Delete", new { id=unGroupePersoItem.GroupsId })
+                    </td>
+                </tr>   
+            }
+            <tr>
+                <td>
+                    @Html.ActionLink("Créer un nouveau groupe", "Create")
+                </td>
+            </tr>
+        </table> 
+    }
+    else
+    {
+        <table>
+            <tr>
+                <th>
+                    Mes propres groupes (0)
+                </th>       
+            </tr>
+            <tr>
+                <td>
+                    @Html.ActionLink("Créer un nouveau groupe", "Create")
+                </td>
+            </tr>
+        </table>
+    }
+}
+<br />
+@{
+    if (Model.groupsJoin != null)
+    {
+        <table>
+            <tr>
+                <th>Mes groupes rejoints (@Model.groupsJoin.Count)</th>
+            </tr>
+            <tr>
+                 @foreach (var unGroupeJoin in Model.groupsJoin)
+                 {
+                     <td>
+                         @Html.DisplayFor(ModelItem => unGroupeJoin.GroupsName)
+                     </td>
+                     <td>
+                        @Html.ActionLink("Detail", "Details", new { id=unGroupeJoin.GroupsId }) |
+                        @Html.ActionLink("Quitter le groupe", "LeaveGroup", new { id=unGroupeJoin.GroupsId })
+                     </td>
+                 }
+            </tr>
+        </table>
+    }
+    else
+    {
+        <table>
+            <tr>
+                <th>
+                    Mes groupes rejoints (0)
+                </th>
+            </tr>
+
+        </table>
+    }
+}
+
+<div>
+    @Html.ActionLink("Retourner vers la page d'accueil", "Index", "Home")
+</div>

@@ -1,0 +1,97 @@
+﻿@model MvcPhoNoombuRemake.Models.LstMemberGroup
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Html.DisplayFor(model => model.groupsConcerned.GroupsName)</h2>
+<br />
+<h3>Propriétaire/Créateur : @Html.DisplayFor(model => model.groupsConcerned.Owner.FirstName) @Html.DisplayFor(model => model.groupsConcerned.Owner.LastName)</h3>
+
+
+@{
+    if (Model.groupsConcerned.Members != null)
+    {
+       <h4>Membres (@Model.groupsConcerned.Members.Count)</h4>
+       <table>
+            @foreach (var item in Model.groupsConcerned.Members)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.FirstName) @Html.DisplayFor(model => item.LastName)
+                    </td>
+                    @{
+                if (Model.groupsConcerned.Owner.UserId == WebSecurity.CurrentUserId)
+                {
+                            <td>
+                                 <input type="submit" value="Kicker" onclick="location.href='@Url.Action("Remove", "Groups", new { id = Model.groupsConcerned.GroupsId, pgid = item.UserId })'" /> 
+                            </td>
+                }
+                    }
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <h4>Membres (0)</h4>
+    }
+}
+<br />
+
+@{
+    if (Model.UserSuggest != null)
+    {
+        <h4>Les amis que vous pourriez inviter dans le groupe </h4>
+        <table>
+            @* On liste les utilisateur suivi (followed)*@
+            @foreach (var Modelitem in Model.UserSuggest)
+            {
+                @* On vérifie sir l'utilisateur suivi (followed) n'est pas le créateur du groupe  *@
+                if (Modelitem.userfollowed.UserId != Model.groupsConcerned.Owner.UserId)
+                {
+                    if (Model.groupsConcerned.Members.Count != 0)
+                    {
+                        @* On parcourt la liste des membres du groupe   *@
+                        foreach (var unMembre in Model.groupsConcerned.Members)
+                        {
+                            @* On vérifie si l'utilisateur qu'on suit est membre du groupe ou non  *@
+                            if (Modelitem.userfollowed.UserId == unMembre.UserId)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(model => Modelitem.userfollowed.LastName) @Html.DisplayFor(model => Modelitem.userfollowed.FirstName)
+                                    </td>
+                                    <td>
+                                        <input type="submit" value="Inviter" onclick="location.href='@Url.Action("Invite", "Groups", new { id = Model.groupsConcerned.GroupsId, pgid = Modelitem.userfollowed.UserId})    '" />                                                                                             
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => Modelitem.userfollowed.LastName) @Html.DisplayFor(model => Modelitem.userfollowed.FirstName)
+                            </td>
+                            <td>
+                                <input type="submit" value="Inviter" onclick="location.href='@Url.Action("Invite", "Groups", new { id = Model.groupsConcerned.GroupsId, pgid = Modelitem.userfollowed.UserId })    '" />                                                                                             
+                            </td>
+                        </tr>
+                    }
+
+                }
+
+            }
+        </table>
+    }
+}
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

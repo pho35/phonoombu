@@ -1,0 +1,26 @@
+﻿@model MvcPhoNoombuRemake.DAL.Groups
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Êtes-vous sûr de supprimer ce groupe ?</h3>
+<fieldset>
+    <legend>Groups</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.GroupsName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.GroupsName)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Supprimer" /> |
+        @Html.ActionLink("Retourner à la liste des mes groupes", "Index")
+    </p>
+}

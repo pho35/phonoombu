@@ -1,0 +1,65 @@
+﻿@model MvcPhoNoombuRemake.Models.RegisterModel
+@{
+    ViewBag.Title = "S'inscrire";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Créez un nouveau compte.</h2>
+</hgroup>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Formulaire d'inscription</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.LastName)
+                @Html.TextBoxFor(m => m.LastName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.FirstName)
+                @Html.TextBoxFor(m => m.FirstName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.GenderSelected)
+                @Html.DropDownListFor(m => m.GenderSelected, Model.Gender)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.DateBirth)
+                @Html.EditorFor(m => m.DateBirth)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ConfirmPassword)
+                @Html.PasswordFor(m => m.ConfirmPassword)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.SelectedDepartment)
+                @Html.DropDownListFor(m => m.SelectedDepartment, Model.Department)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.SelectedTitre)
+                @Html.DropDownListFor(m => m.SelectedTitre, Model.Title)
+            </li>
+        </ol>
+        <input type="submit" value="S'inscrire" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

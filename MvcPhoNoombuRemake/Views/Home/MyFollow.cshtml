@@ -1,0 +1,88 @@
+﻿@model MvcPhoNoombuRemake.Models.LstFollowModel
+@{
+    ViewBag.Title = "MyFollow";
+}
+
+<h2>Mes abonnements</h2>
+
+<table>
+    <tr>
+        <th>
+            Nom
+        </th>
+        <th>
+        </th>
+        <th>
+            Prénom
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.LstUserFollower) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.userfollowed.LastName)
+        </td>
+        <td></td>
+        <td>
+            @Html.DisplayFor(modelItem => item.userfollowed.FirstName)
+        </td>
+        <td>
+            <input type="submit" value="Désabonner" onclick="location.href='@Url.Action("UnFollow", "Home", new {id=item.FollowId})'"/>
+        </td>
+    </tr>
+}
+</table>
+<br />
+<h2>Liste des utilisateurs qui vous suivent</h2>
+
+<table>
+    <tr>
+        <th>
+            Nom
+        </th>
+        <th>
+        </th>
+        <th>
+            Prénom
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.LstUserFollowed) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.userfollower.LastName) 
+            </td>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.userfollower.FirstName)
+            </td>
+            @{
+                Boolean Ok = false;
+                foreach (var itemcheck in Model.LstUserFollower)
+                {
+                    if (item.userfollower.UserId == itemcheck.userfollowed.UserId)
+                    {
+                        Ok = true;
+                        break;
+                    }
+                }
+                if (Ok == false)
+                {
+                    <td>
+                        <input type="submit" value="S'abonner" onclick="location.href='@Url.Action("Follow", "Home", new {id=item.userfollower.UserId})'"/>
+                    </td>
+
+                }
+            }
+        </tr>
+    }
+</table>
+<div>
+    @Html.ActionLink("Retourner vers la page d'accueil", "Index", "Home")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

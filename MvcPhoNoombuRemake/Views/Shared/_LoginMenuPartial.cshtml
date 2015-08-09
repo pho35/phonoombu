@@ -1,0 +1,6 @@
+﻿@if (Request.IsAuthenticated) {
+    <li>@Html.ActionLink("Mes Groupes", "Index", "Groups")</li>
+    <li>@Html.ActionLink("Mes abonnements", "MyFollow", "Home")</li>
+    <li>@Html.ActionLink("Mes Posts", "Index", "Post")</li>
+    <li>@Html.ActionLink("Rechercher un ami", "Rechercher", "Home")</li>
+}

@@ -1,0 +1,38 @@
+﻿@model MvcPhoNoombuRemake.Models.LstPostModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Liste de mes posts</h2>
+
+<table>
+    <tr>
+        <th>
+            Contenu du post
+        </th>
+        <th></th>
+        <th>
+            Publié le 
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Posts) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContentPost)
+        </td>
+        <td>
+            @item.DatePublication.ToShortDateString()
+        </td>
+        <td>
+            @Html.ActionLink("Modifier le post", "Edit", new { id=item.PostId }) |
+            @Html.ActionLink("Supprimer le post", "Delete", new { id=item.PostId })
+        </td>
+    </tr>
+}
+</table>
+<div>
+    @Html.ActionLink("Retourner vers la page d'accueil", "Index", "Home")
+</div>
